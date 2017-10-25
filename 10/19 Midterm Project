@@ -2,13 +2,15 @@ var xPos = 400; // x position of the ball
 var yPos = 10; // y position of the ball
 var xVel = 5; // x velocity of the ball
 var yVel = 5; // y velocity of the ball
+var redVal = 0;
+var blueVal = 255;
 var xTopRect = 400; // x position of the center of top board
 var yTopRect = 590; // y position of the center of top board
 var xBottomRect = 400; // x position of the center of bottom board
 var yBottomRect = 0; // y position of the center of bottom board
-var topBoard = 50; // half length of top board
-var bottomBoard = 50; // half length of bottom board
-var sec = second(); 
+var board = 50; // half length of the boards
+var scoreTop = 0; 
+var scoreBottom = 0; 
 
 
 function setup(){
@@ -18,35 +20,56 @@ function setup(){
 function draw(){
     background(220,255,220);
     // create and move the ball
-    fill(0);
-    ellipse(xPos,yPos,20,20);
+    createBall();
     xPos+=xVel;
     yPos+=yVel;
     // create the tow board
     fill(0,0,255);
-    rect(xBottomRect-topBoard,yBottomRect,2*topBoard,10);
-    fill(255,0,0)
-    rect(xTopRect-bottomBoard,yTopRect,2*bottomBoard,10);
+    rect(xBottomRect-board,yBottomRect,2*board,10);
+    fill(255,0,0);
+    rect(xTopRect-board,yTopRect,2*board,10);
     // two boards become shorter due to the time
-    topBoard-=0.02;
-    bottomBoard-=0.02;
+    board-=0.02;
+    board-=0.02;
     // bounce back
     if(xPos>width||xPos<0){ 
         xVel*=-1;
     }
-    else if(yPos==yBottomRect&&onBottomBoard()||yPos==yTopRect&&onTopBoard()){  
+    else if(yPos==yBottomRect&&onBottomBoard()){  
         yVel*=-1;
+        scoreTop+=(int)(50-board); // the shorter the board is, the higher the score player will gain
+        redVal = 0;
+        blueVal = 255;
     }
+    else if(yPos==yTopRect&&onTopBoard()){  
+        yVel*=-1;
+        scoreBottom+=(int)(50-board); // the shorter the board is, the higher the score player will gain
+        redVal = 255;
+        blueVal = 0;
+    }
+    textSize(20);
+    fill(0,0,255);
+    text("Score: ",10,25)
+    text(scoreTop,75,25);
+    fill(255,0,0);
+    text("Score: ",10,590)
+    text(scoreBottom,75,590);
+}
+
+// create ball and change color
+function createBall(){
+    fill(redVal,0,blueVal);
+    ellipse(xPos,yPos,20,20);
 }
 
 //test if ball sho9uld be bounce back by the bottom board
 function onBottomBoard(){
-    return (xPos<=xBottomRect+bottomBoard&&xPos>=xBottomRect-bottomBoard);
+    return (xPos<=xBottomRect+board&&xPos>=xBottomRect-board);
 }
 
 //test if ball sho9uld be bounce back by the top board
 function onTopBoard(){
-    return (xPos<=xTopRect+topBoard&&xPos>=xTopRect-topBoard);
+    return (xPos<=xTopRect+board&&xPos>=xTopRect-board);
 }
 
 // keyboard control system
@@ -76,3 +99,22 @@ function keyTyped(){
         yBottomRect+=10;
     }
 }
+
+
+/*function restart(){
+    if(yPos > height || yPos < 0){ 
+        background(0);
+
+        if(yPos > height){
+            xPos = 400;
+            yPos = 590;
+            xVel = -5;
+            yVel = -5;
+        }
+        else if(yPos < 0){
+            xPos = 400;
+            yPos = 10;
+            xVel = 5;
+            yVel = 5;
+        }
+}*/
