@@ -122,6 +122,8 @@ function endGame(){
         text(scoreTop,340,420);
         text("Red Score: ",233,445)
         text(scoreBottom,337,445);
+        textSize(15);
+        text("for Jackie, my best friend",205,780);
     }
     if(yPos < 0){
     	clear();
@@ -135,5 +137,7 @@ function endGame(){
         text(scoreTop,340,420);
         text("Red Score: ",233,445)
         text(scoreBottom,337,445);
+        textSize(15);
+        text("for Jackie, my best friend",205,780);
     }
 }
