@@ -1,0 +1,31 @@
+var loopMode;
+
+function preload(){
+    var mySound = ('assets/CN.mp3');
+}
+
+function setup(){
+    createCanvas(600,800);
+    background(220,255,220);
+}
+
+function draw(){
+    // start music when mouse is clicked
+    if (mouseIsPressed){
+        mySound.play();
+    }
+    // pause music when P is hit
+    else if (key === 'P'){
+        loopMode = 'sustain';
+        changeMode();
+    } 
+    else if (key === 'P'){
+        loopMode = 'restart';
+        changeMode();
+    } 
+}
+
+function changeMode(){
+    mySound.playMode(loopMode);
+    mySound.loop(true);
+}
