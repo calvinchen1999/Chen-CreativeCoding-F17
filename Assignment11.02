@@ -1,0 +1,73 @@
+var posX;
+var posY;
+var ballArray = [];
+var soundArray = [];
+var timeStart;
+
+function preload(){
+    soundArray[1] = ('assets/do.wav');
+    soundArray[2] = ('assets/re.wav');
+    soundArray[3] = ('assets/mi.wav');
+    soundArray[4] = ('assets/fa.wav');
+    soundArray[5] = ('assets/so.wav');
+    soundArray[6] = ('assets/la.wav');
+    soundArray[7] = ('assets/si.wav');
+ }
+
+function setup(){
+    createCanvas(800,100);
+ }
+
+function draw(){
+	background(255);
+	fill(255);
+	rect(10,10,700,80)
+	for (var j=1; j<=7; j++){
+    	fill(255);
+    	ellipse(j*80, 50, 30, 30);
+    }
+    fill(0);
+    var newBall = new ball(mouseX,mouseY);
+	ballArray.push(newBall);
+    newBall.animate();
+}
+
+function mouseClicked(){
+	fill(0);
+	var newBall = new ball(mouseX,mouseY);
+	ballArray.push(newBall);
+	posX = newBall.getX();
+	posY = newBall.getY();
+	timeStart = millis();
+}
+
+function ball(myX,myY){
+	this.x = myX;
+	this.y = myY;
+	this.display = function(){
+		ellipse(this.x,this.y,20,20);
+	}
+	this.animate = function(){
+		timeLength = millis() - timeStart;
+		ellipse(posX+0.1*timeLength,50,20,20);
+	}
+	this.getX = function(){
+		return this.x;
+	}
+	this.getY = function(){
+		return this.x;
+	}
+}
+
+function playSound(){
+	for (var k=1; k<=7; k++){
+		if(x = 80*k){
+            soundArray[k].play;
+		}
+		if(x = 80*k+40){
+            soundArray[k].stop;
+		}
+	}
+}
+
+
