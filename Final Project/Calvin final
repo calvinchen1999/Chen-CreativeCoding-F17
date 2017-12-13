@@ -1,0 +1,76 @@
+ var time = 0.0;
+var dt = 0.01;
+var angle = 0;
+var start = false;
+var auto = false;
+
+function setup() {
+  createCanvas(800, 600);
+  colorMode(HSB,255,255,255,255);
+}
+
+function draw() {
+  fill(0,0,0,3);
+  noStroke();
+  rect(0,0,width,height);
+  if (start) {
+    textSize(height / 40);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    text("A: start or stop auto-generate", width / 6, height - 30);
+    text("space: clear everything", width / 2 - 30, height - 30);
+    text("click mouse: generate at where clicked", 4 * width / 5, height - 30);
+    push();
+    time += dt;
+    strokeWeight(3);
+    stroke(angle % 255, 255, 255, 10);
+    noFill();
+    translate(width / 2, height / 2);
+    if (auto)
+      rotate(radians(angle));
+    else if (mouseIsPressed) {
+      if (mouseY > height / 2)
+        rotate(acos((mouseX - width / 2) / dist(mouseX, mouseY, width / 2, height / 2)));
+      else
+        rotate(acos((-mouseX + width / 2) / dist(mouseX, mouseY, width / 2, height / 2)));
+    }
+    if (auto || mouseIsPressed) {
+      createLine();
+    }
+    pop();
+    
+  } else {
+    background(0);
+    textSize(height / 8);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    text("Color Generator", width / 2, height / 3 - 50);
+    textSize(height / 13);
+    text("Wormhole", width / 2, height / 3 + 50);
+    textSize(height / 20);
+    if (frameCount % 60 < 30)
+      text("press enter buttom to start", width / 2, 5 * height / 6);
+  }
+}
+
+function createLine(){
+  beginShape();
+    for (var x = -width / 4; x <= width / 4; x += 1) {
+      var drift = (noise(x / 100, x / 300, time) - 0.5) * 300;
+      vertex(x, drift);
+    }
+    endShape();
+    angle++;
+}
+
+function keyPressed() {
+  if (keyCode == 32)
+    background(0);
+  if (keyCode == 13) {
+    background(0);
+    start = true;
+  }
+  if (keyCode == 65) {
+    auto = !auto;
+  }
+}
